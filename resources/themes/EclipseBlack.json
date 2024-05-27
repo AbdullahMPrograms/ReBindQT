@@ -1,14 +1,14 @@
 {
     "colours": {
         "main": "#141414",
-        "background": "gray10",
-        "button_hover": "gray10",
-        "button_selected": "gray8",
-        "segmented_button_hover": "gray10",
-        "dropdown": "gray20",
+        "background": "#1a1a1a",
+        "button_hover": "#1a1a1a",
+        "button_selected": "#141414",
+        "segmented_button_hover": "#1a1a1a",
+        "dropdown": "#333333",
         "keys_frame": "#050505",
         "key_button": "#272727",
-        "notification_frame": "gray20",
+        "notification_frame": "#333333",
         "selected_frame_indicator": "white"
     },
     "fonts": {

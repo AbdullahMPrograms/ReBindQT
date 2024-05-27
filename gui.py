@@ -1,24 +1,103 @@
 # ALL GUI AND UI FUNCTIONS ARE DEFINED HERE
 import sys
+from PySide6.QtCore import *
 from PySide6.QtWidgets import *
+from PySide6.QtGui import *
 
 def main():
-    # Create the application object
-    app = QApplication(sys.argv)
+    app = QApplication()
 
     # Create the main window
     window = QWidget()
-    window.setWindowTitle("Hello World")
+    window.setWindowTitle("ReBind")
+    window.setFixedSize(1250, 570)
+    window.setWindowIcon(QIcon("resources/icons/icon_logo.png"))
+    window.setStyleSheet("background-color: #141414; border-radius: 10px;")
 
-    # Create a label
-    label = QLabel("Hello, World!", parent=window)
+    # Content frame
+    contentFrame = QFrame(window)
+    contentFrame.setGeometry(70, 0, 1180, 540)
+    contentFrame.setStyleSheet("background-color: #1a1a1a; border-radius: 10px;")
 
-    # Set layout
-    layout = QVBoxLayout()
-    layout.addWidget(label)
-    window.setLayout(layout)
+    # Sidebar frame
+    sidebarFrame = QFrame(window)
+    sidebarFrame.setGeometry(0, 0, 70, 570)
+    sidebarFrame.setStyleSheet("background-color: #141414; border-radius: 10px;")
 
-    # Show the window
+    # Sidebar Buttons
+    sidebarLayout = QVBoxLayout(sidebarFrame)
+    sidebarLayout.setContentsMargins(0, 0, 0, 0)  # Remove margins
+    sidebarLayout.setSpacing(0)  # Remove spacing
+    
+    # in code for now
+    sidebarFrame.setStyleSheet("""
+        QPushButton {
+            background-color: transparent;
+            border: none;
+            margin: 0px;
+            padding: 0px;
+            color: white;
+            width: 70px;
+            height: 50px;
+            border-radius: 0px;
+        }
+        QPushButton:hover {
+            background-color: #1a1a1a;
+        }
+    """)
+    
+    menuButton = QPushButton()
+    menuButton.setIcon(QIcon("resources/icons/icon_menu.png"))
+    menuButton.setIconSize(QSize(18, 18))
+    sidebarLayout.addWidget(menuButton)
+    
+    homeButton = QPushButton()
+    homeButton.setIcon(QIcon("resources/icons/icon_home.png"))
+    homeButton.setIconSize(QSize(16, 16))
+    sidebarLayout.addWidget(homeButton)
+    
+    macroButton = QPushButton()
+    macroButton.setIcon(QIcon("resources/icons/icon_macro.png"))
+    macroButton.setIconSize(QSize(16, 16))
+    sidebarLayout.addWidget(macroButton)
+    
+    pluginButton = QPushButton()
+    pluginButton.setIcon(QIcon("resources/icons/icon_plugin.png"))
+    pluginButton.setIconSize(QSize(16, 16))
+    sidebarLayout.addWidget(pluginButton)
+    
+    profileButton = QPushButton()
+    profileButton.setIcon(QIcon("resources/icons/icon_profile.png"))
+    profileButton.setIconSize(QSize(16, 16))
+    sidebarLayout.addWidget(profileButton)
+    
+    debugButton = QPushButton()
+    debugButton.setIcon(QIcon("resources/icons/icon_debug.png"))
+    debugButton.setIconSize(QSize(16, 16))
+    sidebarLayout.addWidget(debugButton)
+    
+    sidebarLayout.addStretch(0)  # Basically a spacer
+    
+    settingsButton = QPushButton()
+    settingsButton.setIcon(QIcon("resources/icons/icon_settings.png"))
+    settingsButton.setIconSize(QSize(18, 18))
+    sidebarLayout.addWidget(settingsButton)
+    
+    # Version frame
+    versionFrame = QFrame(window)
+    versionFrame.setGeometry(70, 540, 1180, 30)
+    versionFrame.setStyleSheet("background-color: #141414; border-radius: 10px;")
+    
+    # Version label
+    versionLabel = QLabel("v0.0.1")
+    versionLabel.setStyleSheet("color: #a2a19b; font-size: 12px; font-family: 'Open Sans';")
+    
+    # Create a horizontal layout for the version frame
+    versionLayout = QHBoxLayout(versionFrame)
+    versionLayout.addStretch(1)
+    versionLayout.addWidget(versionLabel)
+    versionLayout.setContentsMargins(0, 0, 15, 0)  # Set right margin to 15px
+
     window.show()
 
     # Execute the application's main loop
