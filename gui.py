@@ -83,12 +83,13 @@ def main():
             background-color: #1a1a1a;
         }
     """)
-    
+
+    # Menu button
     menuButton = QPushButton()
     menuButton.setIcon(QIcon("resources/icons/icon_menu.png"))
     menuButton.setIconSize(QSize(18, 18))
     sidebarLayout.addWidget(menuButton)
-    
+
     homeButton = QPushButton()
     homeButton.setIcon(QIcon("resources/icons/icon_home.png"))
     homeButton.setIconSize(QSize(16, 16))
@@ -141,6 +142,22 @@ def main():
     versionLayout.addStretch(1)
     versionLayout.addWidget(versionLabel)
     versionLayout.setContentsMargins(0, 0, 15, 0)  # Set right margin to 15px
+
+    # Animation setup
+    sidebarAnimation = QPropertyAnimation(sidebarFrame, b"geometry")
+    sidebarAnimation.setDuration(300)
+    sidebarAnimation.setEasingCurve(QEasingCurve.OutCubic)
+
+    def toggleSidebar():
+        if sidebarFrame.width() == 70:
+            sidebarAnimation.setStartValue(QRect(0, 0, 70, 570))
+            sidebarAnimation.setEndValue(QRect(0, 0, 200, 570))
+        else:
+            sidebarAnimation.setStartValue(QRect(0, 0, 200, 570))
+            sidebarAnimation.setEndValue(QRect(0, 0, 70, 570))
+        sidebarAnimation.start()
+
+    menuButton.clicked.connect(toggleSidebar)
 
     window.show()
 
