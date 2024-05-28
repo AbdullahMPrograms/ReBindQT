@@ -19,6 +19,44 @@ def main():
     contentFrame.setGeometry(70, 0, 1180, 540)
     contentFrame.setStyleSheet("background-color: #1a1a1a; border-radius: 10px;")
 
+    # Stacked Widget (Pages)
+    stackedWidget = QStackedWidget(contentFrame)
+    
+    # Home Page
+    homePage = QWidget()
+    homePageLayout = QVBoxLayout(homePage)
+    homePageLabel = QLabel("Home Page")
+    homePageLayout.addWidget(homePageLabel)
+    stackedWidget.addWidget(homePage)
+
+    # Macro Page
+    macroPage = QWidget()
+    macroPageLayout = QVBoxLayout(macroPage)
+    macroPageLabel = QLabel("Macro Page")
+    macroPageLayout.addWidget(macroPageLabel)
+    stackedWidget.addWidget(macroPage)
+    
+    # Plugin Page
+    pluginPage = QWidget()
+    pluginPageLayout = QVBoxLayout(pluginPage)
+    pluginPageLabel = QLabel("Plugin Page")
+    pluginPageLayout.addWidget(pluginPageLabel)
+    stackedWidget.addWidget(pluginPage)
+    
+    # Profile Page
+    profilePage = QWidget()
+    profilePageLayout = QVBoxLayout(profilePage)
+    profilePageLabel = QLabel("Profile Page")
+    profilePageLayout.addWidget(profilePageLabel)
+    stackedWidget.addWidget(profilePage)
+    
+    # Settings Page
+    settingsPage = QWidget()
+    settingsPageLayout = QVBoxLayout(settingsPage)
+    settingsPageLabel = QLabel("Settings Page")
+    settingsPageLayout.addWidget(settingsPageLabel)
+    stackedWidget.addWidget(settingsPage)
+    
     # Sidebar frame
     sidebarFrame = QFrame(window)
     sidebarFrame.setGeometry(0, 0, 70, 570)
@@ -54,26 +92,31 @@ def main():
     homeButton = QPushButton()
     homeButton.setIcon(QIcon("resources/icons/icon_home.png"))
     homeButton.setIconSize(QSize(16, 16))
+    homeButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(0))
     sidebarLayout.addWidget(homeButton)
     
     macroButton = QPushButton()
     macroButton.setIcon(QIcon("resources/icons/icon_macro.png"))
     macroButton.setIconSize(QSize(16, 16))
+    macroButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(1))
     sidebarLayout.addWidget(macroButton)
     
     pluginButton = QPushButton()
     pluginButton.setIcon(QIcon("resources/icons/icon_plugin.png"))
     pluginButton.setIconSize(QSize(16, 16))
+    pluginButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(2))
     sidebarLayout.addWidget(pluginButton)
     
     profileButton = QPushButton()
     profileButton.setIcon(QIcon("resources/icons/icon_profile.png"))
     profileButton.setIconSize(QSize(16, 16))
+    profileButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(3))
     sidebarLayout.addWidget(profileButton)
     
     debugButton = QPushButton()
     debugButton.setIcon(QIcon("resources/icons/icon_debug.png"))
     debugButton.setIconSize(QSize(16, 16))
+    debugButton.clicked.connect(lambda: print("Debug Button Clicked")) # Dummy for now
     sidebarLayout.addWidget(debugButton)
     
     sidebarLayout.addStretch(0)  # Basically a spacer
@@ -81,6 +124,7 @@ def main():
     settingsButton = QPushButton()
     settingsButton.setIcon(QIcon("resources/icons/icon_settings.png"))
     settingsButton.setIconSize(QSize(18, 18))
+    settingsButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(4))
     sidebarLayout.addWidget(settingsButton)
     
     # Version frame
