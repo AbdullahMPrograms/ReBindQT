@@ -43,6 +43,7 @@ class Sidebar(QFrame):
         super().__init__(parent)
         self.stacked_widget = stacked_widget
         self.init_ui()
+        self.init_animation()
 
     def init_ui(self):
         self.setStyleSheet("""
@@ -92,6 +93,21 @@ class Sidebar(QFrame):
         settingsButton.setIconSize(QSize(18, 18))
         settingsButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(4))
         sidebarLayout.addWidget(settingsButton)
+
+    def init_animation(self):
+        self.sidebarAnimation = QPropertyAnimation(self, b"minimumWidth")
+        self.sidebarAnimation.setDuration(250)
+        self.sidebarAnimation.setEasingCurve(QEasingCurve.OutCubic)
+        self.menuButton.clicked.connect(self.toggle_sidebar)
+
+    def toggle_sidebar(self):
+        if self.width() == 70:
+            self.sidebarAnimation.setStartValue(70)
+            self.sidebarAnimation.setEndValue(200)
+        else:
+            self.sidebarAnimation.setStartValue(200)
+            self.sidebarAnimation.setEndValue(70)
+        self.sidebarAnimation.start()
 
 class ContentFrame(QFrame):
     def __init__(self, parent):
@@ -143,12 +159,10 @@ class MainWindow(QWidget):
         mainLayout.setContentsMargins(0, 0, 0, 0)
         mainLayout.setSpacing(0)
 
-        # Sidebar
         self.contentFrame = ContentFrame(self)
         self.sidebarFrame = Sidebar(self, self.contentFrame.stackedWidget)
         mainLayout.addWidget(self.sidebarFrame)
 
-        # Right side layout
         rightLayout = QVBoxLayout()
         rightLayout.setContentsMargins(0, 0, 0, 0)
         rightLayout.setSpacing(0)
@@ -158,21 +172,6 @@ class MainWindow(QWidget):
         rightLayout.addWidget(self.versionFrame)
 
         mainLayout.addLayout(rightLayout)
-
-        self.sidebarAnimation = QPropertyAnimation(self.sidebarFrame, b"minimumWidth")
-        self.sidebarAnimation.setDuration(250)
-        self.sidebarAnimation.setEasingCurve(QEasingCurve.OutCubic)
-
-        self.sidebarFrame.menuButton.clicked.connect(self.toggle_sidebar)
-
-    def toggle_sidebar(self):
-        if self.sidebarFrame.width() == 70:
-            self.sidebarAnimation.setStartValue(70)
-            self.sidebarAnimation.setEndValue(200)
-        else:
-            self.sidebarAnimation.setStartValue(200)
-            self.sidebarAnimation.setEndValue(70)
-        self.sidebarAnimation.start()
 
 def main():
     app = QApplication(sys.argv)
