@@ -38,51 +38,14 @@ class SettingsPage(QWidget):
         label = QLabel("Settings Page")
         layout.addWidget(label)
 
-class MainWindow(QWidget):
-    def __init__(self):
-        super().__init__()
+class Sidebar(QFrame):
+    def __init__(self, parent, stacked_widget):
+        super().__init__(parent)
+        self.stacked_widget = stacked_widget
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle("ReBind")
-        self.setFixedSize(1250, 570)
-        self.setWindowIcon(QIcon("resources/icons/icon_logo.png"))
-        self.setStyleSheet("background-color: #141414; border-radius: 10px;")
-
-        # Main layout
-        mainLayout = QHBoxLayout(self)
-        mainLayout.setContentsMargins(0, 0, 0, 0)
-        mainLayout.setSpacing(0)
-
-        # Create sidebar
-        self.sidebarFrame = self.create_sidebar()
-        mainLayout.addWidget(self.sidebarFrame)
-
-        # Create right side layout
-        rightLayout = QVBoxLayout()
-        rightLayout.setContentsMargins(0, 0, 0, 0)
-        rightLayout.setSpacing(0)
-
-        # Create content frame
-        self.contentFrame, self.stackedWidget = self.create_content_frame()
-        rightLayout.addWidget(self.contentFrame)
-
-        # Create version frame
-        self.versionFrame = self.create_version_frame()
-        rightLayout.addWidget(self.versionFrame)
-
-        mainLayout.addLayout(rightLayout)
-
-        # Animation setup
-        self.sidebarAnimation = QPropertyAnimation(self.sidebarFrame, b"minimumWidth")
-        self.sidebarAnimation.setDuration(250)
-        self.sidebarAnimation.setEasingCurve(QEasingCurve.OutCubic)
-
-        self.menuButton.clicked.connect(self.toggle_sidebar)
-
-    def create_sidebar(self):
-        sidebarFrame = QFrame()
-        sidebarFrame.setStyleSheet("""
+        self.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 border: none;
@@ -98,8 +61,7 @@ class MainWindow(QWidget):
                 border-radius: 3px;
             }
         """)
-
-        sidebarLayout = QVBoxLayout(sidebarFrame)
+        sidebarLayout = QVBoxLayout(self)
         sidebarLayout.setContentsMargins(0, 0, 0, 0)
         sidebarLayout.setSpacing(0)
 
@@ -109,10 +71,10 @@ class MainWindow(QWidget):
         sidebarLayout.addWidget(self.menuButton)
 
         buttons = [
-            ("resources/icons/icon_home.png", lambda: self.stackedWidget.setCurrentIndex(0)),
-            ("resources/icons/icon_macro.png", lambda: self.stackedWidget.setCurrentIndex(1)),
-            ("resources/icons/icon_plugin.png", lambda: self.stackedWidget.setCurrentIndex(2)),
-            ("resources/icons/icon_profile.png", lambda: self.stackedWidget.setCurrentIndex(3)),
+            ("resources/icons/icon_home.png", lambda: self.stacked_widget.setCurrentIndex(0)),
+            ("resources/icons/icon_macro.png", lambda: self.stacked_widget.setCurrentIndex(1)),
+            ("resources/icons/icon_plugin.png", lambda: self.stacked_widget.setCurrentIndex(2)),
+            ("resources/icons/icon_profile.png", lambda: self.stacked_widget.setCurrentIndex(3)),
             ("resources/icons/icon_debug.png", lambda: print("Debug Button Clicked")),
         ]
 
@@ -123,48 +85,85 @@ class MainWindow(QWidget):
             button.clicked.connect(func)
             sidebarLayout.addWidget(button)
 
-        sidebarLayout.addStretch(0)  # Add the stretch before the settings button
+        sidebarLayout.addStretch(0)
 
         settingsButton = QPushButton()
         settingsButton.setIcon(QIcon("resources/icons/icon_settings.png"))
         settingsButton.setIconSize(QSize(18, 18))
-        settingsButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
+        settingsButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(4))
         sidebarLayout.addWidget(settingsButton)
 
-        return sidebarFrame
+class ContentFrame(QFrame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.init_ui()
 
-    def create_content_frame(self):
-        contentFrame = QFrame()
-        contentFrame.setStyleSheet("background-color: #1a1a1a; border-radius: 10px;")
+    def init_ui(self):
+        self.setStyleSheet("background-color: #1a1a1a; border-radius: 10px;")
+        self.stackedWidget = QStackedWidget(self)
 
-        stackedWidget = QStackedWidget(contentFrame)
+        self.stackedWidget.addWidget(HomePage())
+        self.stackedWidget.addWidget(MacroPage())
+        self.stackedWidget.addWidget(PluginPage())
+        self.stackedWidget.addWidget(ProfilePage())
+        self.stackedWidget.addWidget(SettingsPage())
 
-        # Add pages to the stacked widget
-        stackedWidget.addWidget(HomePage())
-        stackedWidget.addWidget(MacroPage())
-        stackedWidget.addWidget(PluginPage())
-        stackedWidget.addWidget(ProfilePage())
-        stackedWidget.addWidget(SettingsPage())
+        contentLayout = QVBoxLayout(self)
+        contentLayout.addWidget(self.stackedWidget)
 
-        contentLayout = QVBoxLayout(contentFrame)
-        contentLayout.addWidget(stackedWidget)
+class VersionFrame(QFrame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.init_ui()
 
-        return contentFrame, stackedWidget
-
-    def create_version_frame(self):
-        versionFrame = QFrame()
-        versionFrame.setStyleSheet("background-color: #141414; border-radius: 10px;")
-        versionFrame.setFixedHeight(30)
+    def init_ui(self):
+        self.setStyleSheet("background-color: #141414; border-radius: 10px;")
+        self.setFixedHeight(30)
 
         versionLabel = QLabel("v0.0.1")
         versionLabel.setStyleSheet("color: #a2a19b; font-size: 12px; font-family: 'Open Sans';")
 
-        versionLayout = QHBoxLayout(versionFrame)
+        versionLayout = QHBoxLayout(self)
         versionLayout.addStretch(1)
         versionLayout.addWidget(versionLabel)
         versionLayout.setContentsMargins(0, 0, 15, 0)
 
-        return versionFrame
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
+
+    def init_ui(self):
+        self.setWindowTitle("ReBind")
+        self.setFixedSize(1250, 570)
+        self.setWindowIcon(QIcon("resources/icons/icon_logo.png"))
+        self.setStyleSheet("background-color: #141414; border-radius: 10px;")
+
+        mainLayout = QHBoxLayout(self)
+        mainLayout.setContentsMargins(0, 0, 0, 0)
+        mainLayout.setSpacing(0)
+
+        # Sidebar
+        self.contentFrame = ContentFrame(self)
+        self.sidebarFrame = Sidebar(self, self.contentFrame.stackedWidget)
+        mainLayout.addWidget(self.sidebarFrame)
+
+        # Right side layout
+        rightLayout = QVBoxLayout()
+        rightLayout.setContentsMargins(0, 0, 0, 0)
+        rightLayout.setSpacing(0)
+        rightLayout.addWidget(self.contentFrame)
+
+        self.versionFrame = VersionFrame(self)
+        rightLayout.addWidget(self.versionFrame)
+
+        mainLayout.addLayout(rightLayout)
+
+        self.sidebarAnimation = QPropertyAnimation(self.sidebarFrame, b"minimumWidth")
+        self.sidebarAnimation.setDuration(250)
+        self.sidebarAnimation.setEasingCurve(QEasingCurve.OutCubic)
+
+        self.sidebarFrame.menuButton.clicked.connect(self.toggle_sidebar)
 
     def toggle_sidebar(self):
         if self.sidebarFrame.width() == 70:
