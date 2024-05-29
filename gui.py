@@ -1,167 +1,192 @@
-# ALL GUI AND UI FUNCTIONS ARE DEFINED HERE
 import sys
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 
-def main():
-    app = QApplication()
+class HomePage(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout(self)
+        label = QLabel("Home Page")
+        layout.addWidget(label)
+        # Add more widgets and setup specific to the Home Page
 
-    # Create the main window
-    window = QWidget()
-    window.setWindowTitle("ReBind")
-    window.setFixedSize(1250, 570)
-    window.setWindowIcon(QIcon("resources/icons/icon_logo.png"))
-    window.setStyleSheet("background-color: #141414; border-radius: 10px;")
+class MacroPage(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout(self)
+        label = QLabel("Macro Page")
+        layout.addWidget(label)
+        # Add more widgets and setup specific to the Macro Page
 
-    # Content frame
-    contentFrame = QFrame(window)
-    contentFrame.setGeometry(70, 0, 1180, 540)
-    contentFrame.setStyleSheet("background-color: #1a1a1a; border-radius: 10px;")
+class PluginPage(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout(self)
+        label = QLabel("Plugin Page")
+        layout.addWidget(label)
+        # Add more widgets and setup specific to the Plugin Page
 
-    # Stacked Widget (Pages)
-    stackedWidget = QStackedWidget(contentFrame)
-    
-    # Home Page
-    homePage = QWidget()
-    homePageLayout = QVBoxLayout(homePage)
-    homePageLabel = QLabel("Home Page")
-    homePageLayout.addWidget(homePageLabel)
-    stackedWidget.addWidget(homePage)
+class ProfilePage(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout(self)
+        label = QLabel("Profile Page")
+        layout.addWidget(label)
+        # Add more widgets and setup specific to the Profile Page
 
-    # Macro Page
-    macroPage = QWidget()
-    macroPageLayout = QVBoxLayout(macroPage)
-    macroPageLabel = QLabel("Macro Page")
-    macroPageLayout.addWidget(macroPageLabel)
-    stackedWidget.addWidget(macroPage)
-    
-    # Plugin Page
-    pluginPage = QWidget()
-    pluginPageLayout = QVBoxLayout(pluginPage)
-    pluginPageLabel = QLabel("Plugin Page")
-    pluginPageLayout.addWidget(pluginPageLabel)
-    stackedWidget.addWidget(pluginPage)
-    
-    # Profile Page
-    profilePage = QWidget()
-    profilePageLayout = QVBoxLayout(profilePage)
-    profilePageLabel = QLabel("Profile Page")
-    profilePageLayout.addWidget(profilePageLabel)
-    stackedWidget.addWidget(profilePage)
-    
-    # Settings Page
-    settingsPage = QWidget()
-    settingsPageLayout = QVBoxLayout(settingsPage)
-    settingsPageLabel = QLabel("Settings Page")
-    settingsPageLayout.addWidget(settingsPageLabel)
-    stackedWidget.addWidget(settingsPage)
-    
-    # Sidebar frame
-    sidebarFrame = QFrame(window)
-    sidebarFrame.setGeometry(0, 0, 70, 570)
-    sidebarFrame.setStyleSheet("background-color: #141414; border-radius: 10px;")
+class SettingsPage(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout(self)
+        label = QLabel("Settings Page")
+        layout.addWidget(label)
+        # Add more widgets and setup specific to the Settings Page
 
-    # Sidebar Buttons
-    sidebarLayout = QVBoxLayout(sidebarFrame)
-    sidebarLayout.setContentsMargins(0, 0, 0, 0)  # Remove margins
-    sidebarLayout.setSpacing(0)  # Remove spacing
-    
-    # in code for now
-    sidebarFrame.setStyleSheet("""
-        QPushButton {
-            background-color: transparent;
-            border: none;
-            margin: 0px;
-            padding: 0px;
-            color: white;
-            width: 70px;
-            height: 50px;
-            border-radius: 0px;
-        }
-        QPushButton:hover {
-            background-color: #1a1a1a;
-        }
-    """)
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
 
-    # Menu button
-    menuButton = QPushButton()
-    menuButton.setIcon(QIcon("resources/icons/icon_menu.png"))
-    menuButton.setIconSize(QSize(18, 18))
-    sidebarLayout.addWidget(menuButton)
+    def init_ui(self):
+        self.setWindowTitle("ReBind")
+        self.setFixedSize(1250, 570)
+        self.setWindowIcon(QIcon("resources/icons/icon_logo.png"))
+        self.setStyleSheet("background-color: #141414; border-radius: 10px;")
 
-    homeButton = QPushButton()
-    homeButton.setIcon(QIcon("resources/icons/icon_home.png"))
-    homeButton.setIconSize(QSize(16, 16))
-    homeButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(0))
-    sidebarLayout.addWidget(homeButton)
-    
-    macroButton = QPushButton()
-    macroButton.setIcon(QIcon("resources/icons/icon_macro.png"))
-    macroButton.setIconSize(QSize(16, 16))
-    macroButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(1))
-    sidebarLayout.addWidget(macroButton)
-    
-    pluginButton = QPushButton()
-    pluginButton.setIcon(QIcon("resources/icons/icon_plugin.png"))
-    pluginButton.setIconSize(QSize(16, 16))
-    pluginButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(2))
-    sidebarLayout.addWidget(pluginButton)
-    
-    profileButton = QPushButton()
-    profileButton.setIcon(QIcon("resources/icons/icon_profile.png"))
-    profileButton.setIconSize(QSize(16, 16))
-    profileButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(3))
-    sidebarLayout.addWidget(profileButton)
-    
-    debugButton = QPushButton()
-    debugButton.setIcon(QIcon("resources/icons/icon_debug.png"))
-    debugButton.setIconSize(QSize(16, 16))
-    debugButton.clicked.connect(lambda: print("Debug Button Clicked")) # Dummy for now
-    sidebarLayout.addWidget(debugButton)
-    
-    sidebarLayout.addStretch(0)  # Basically a spacer
-    
-    settingsButton = QPushButton()
-    settingsButton.setIcon(QIcon("resources/icons/icon_settings.png"))
-    settingsButton.setIconSize(QSize(18, 18))
-    settingsButton.clicked.connect(lambda: stackedWidget.setCurrentIndex(4))
-    sidebarLayout.addWidget(settingsButton)
-    
-    # Version frame
-    versionFrame = QFrame(window)
-    versionFrame.setGeometry(70, 540, 1180, 30)
-    versionFrame.setStyleSheet("background-color: #141414; border-radius: 10px;")
-    
-    # Version label
-    versionLabel = QLabel("v0.0.1")
-    versionLabel.setStyleSheet("color: #a2a19b; font-size: 12px; font-family: 'Open Sans';")
-    
-    # Create a horizontal layout for the version frame
-    versionLayout = QHBoxLayout(versionFrame)
-    versionLayout.addStretch(1)
-    versionLayout.addWidget(versionLabel)
-    versionLayout.setContentsMargins(0, 0, 15, 0)  # Set right margin to 15px
+        # Main layout
+        mainLayout = QHBoxLayout(self)
+        mainLayout.setContentsMargins(0, 0, 0, 0)
+        mainLayout.setSpacing(0)
 
-    # Animation setup
-    sidebarAnimation = QPropertyAnimation(sidebarFrame, b"geometry")
-    sidebarAnimation.setDuration(300)
-    sidebarAnimation.setEasingCurve(QEasingCurve.OutCubic)
+        # Create sidebar
+        self.sidebarFrame = self.create_sidebar()
+        mainLayout.addWidget(self.sidebarFrame)
 
-    def toggleSidebar():
-        if sidebarFrame.width() == 70:
-            sidebarAnimation.setStartValue(QRect(0, 0, 70, 570))
-            sidebarAnimation.setEndValue(QRect(0, 0, 200, 570))
+        # Create right side layout
+        rightLayout = QVBoxLayout()
+        rightLayout.setContentsMargins(0, 0, 0, 0)
+        rightLayout.setSpacing(0)
+
+        # Create content frame
+        self.contentFrame, self.stackedWidget = self.create_content_frame()
+        rightLayout.addWidget(self.contentFrame)
+
+        # Create version frame
+        self.versionFrame = self.create_version_frame()
+        rightLayout.addWidget(self.versionFrame)
+
+        mainLayout.addLayout(rightLayout)
+
+        # Animation setup
+        self.sidebarAnimation = QPropertyAnimation(self.sidebarFrame, b"minimumWidth")
+        self.sidebarAnimation.setDuration(250)
+        self.sidebarAnimation.setEasingCurve(QEasingCurve.OutCubic)
+
+        self.menuButton.clicked.connect(self.toggle_sidebar)
+
+    def create_sidebar(self):
+        sidebarFrame = QFrame()
+        sidebarFrame.setMaximumWidth(200)
+        sidebarFrame.setMinimumWidth(70)
+        sidebarFrame.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                border: none;
+                margin: 0px;
+                padding: 0px;
+                color: white;
+                width: 70px;
+                height: 50px;
+                border-radius: 0px;
+            }
+            QPushButton:hover {
+                background-color: #1a1a1a;
+            }
+        """)
+
+        sidebarLayout = QVBoxLayout(sidebarFrame)
+        sidebarLayout.setContentsMargins(0, 0, 0, 0)
+        sidebarLayout.setSpacing(0)
+
+        self.menuButton = QPushButton()
+        self.menuButton.setIcon(QIcon("resources/icons/icon_menu.png"))
+        self.menuButton.setIconSize(QSize(18, 18))
+        sidebarLayout.addWidget(self.menuButton)
+
+        buttons = [
+            ("resources/icons/icon_home.png", lambda: self.stackedWidget.setCurrentIndex(0)),
+            ("resources/icons/icon_macro.png", lambda: self.stackedWidget.setCurrentIndex(1)),
+            ("resources/icons/icon_plugin.png", lambda: self.stackedWidget.setCurrentIndex(2)),
+            ("resources/icons/icon_profile.png", lambda: self.stackedWidget.setCurrentIndex(3)),
+            ("resources/icons/icon_debug.png", lambda: print("Debug Button Clicked")),
+        ]
+
+        for icon, func in buttons:
+            button = QPushButton()
+            button.setIcon(QIcon(icon))
+            button.setIconSize(QSize(16, 16))
+            button.clicked.connect(func)
+            sidebarLayout.addWidget(button)
+
+        sidebarLayout.addStretch(0)  # Add the stretch before the settings button
+
+        settingsButton = QPushButton()
+        settingsButton.setIcon(QIcon("resources/icons/icon_settings.png"))
+        settingsButton.setIconSize(QSize(18, 18))
+        settingsButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
+        sidebarLayout.addWidget(settingsButton)
+
+        return sidebarFrame
+
+    def create_content_frame(self):
+        contentFrame = QFrame()
+        contentFrame.setStyleSheet("background-color: #1a1a1a; border-radius: 10px;")
+
+        stackedWidget = QStackedWidget(contentFrame)
+
+        # Add pages to the stacked widget
+        stackedWidget.addWidget(HomePage())
+        stackedWidget.addWidget(MacroPage())
+        stackedWidget.addWidget(PluginPage())
+        stackedWidget.addWidget(ProfilePage())
+        stackedWidget.addWidget(SettingsPage())
+
+        contentLayout = QVBoxLayout(contentFrame)
+        contentLayout.addWidget(stackedWidget)
+
+        return contentFrame, stackedWidget
+
+    def create_version_frame(self):
+        versionFrame = QFrame()
+        versionFrame.setStyleSheet("background-color: #141414; border-radius: 10px;")
+        versionFrame.setFixedHeight(30)
+
+        versionLabel = QLabel("v0.0.1")
+        versionLabel.setStyleSheet("color: #a2a19b; font-size: 12px; font-family: 'Open Sans';")
+
+        versionLayout = QHBoxLayout(versionFrame)
+        versionLayout.addStretch(1)
+        versionLayout.addWidget(versionLabel)
+        versionLayout.setContentsMargins(0, 0, 15, 0)
+
+        return versionFrame
+
+    def toggle_sidebar(self):
+        if self.sidebarFrame.minimumWidth() == 70:
+            self.sidebarAnimation.setStartValue(70)
+            self.sidebarAnimation.setEndValue(200)
+            self.sidebarFrame.setMaximumWidth(200)  # Ensure max width is increased
         else:
-            sidebarAnimation.setStartValue(QRect(0, 0, 200, 570))
-            sidebarAnimation.setEndValue(QRect(0, 0, 70, 570))
-        sidebarAnimation.start()
+            self.sidebarAnimation.setStartValue(200)
+            self.sidebarAnimation.setEndValue(70)
+            self.sidebarFrame.setMaximumWidth(70)  # Ensure max width is reduced
+        self.sidebarAnimation.start()
 
-    menuButton.clicked.connect(toggleSidebar)
-
+def main():
+    app = QApplication(sys.argv)
+    window = MainWindow()
     window.show()
-
-    # Execute the application's main loop
     sys.exit(app.exec())
 
 if __name__ == "__main__":
