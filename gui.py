@@ -9,7 +9,6 @@ class HomePage(QWidget):
         layout = QVBoxLayout(self)
         label = QLabel("Home Page")
         layout.addWidget(label)
-        # Add more widgets and setup specific to the Home Page
 
 class MacroPage(QWidget):
     def __init__(self):
@@ -17,7 +16,6 @@ class MacroPage(QWidget):
         layout = QVBoxLayout(self)
         label = QLabel("Macro Page")
         layout.addWidget(label)
-        # Add more widgets and setup specific to the Macro Page
 
 class PluginPage(QWidget):
     def __init__(self):
@@ -25,7 +23,6 @@ class PluginPage(QWidget):
         layout = QVBoxLayout(self)
         label = QLabel("Plugin Page")
         layout.addWidget(label)
-        # Add more widgets and setup specific to the Plugin Page
 
 class ProfilePage(QWidget):
     def __init__(self):
@@ -33,7 +30,6 @@ class ProfilePage(QWidget):
         layout = QVBoxLayout(self)
         label = QLabel("Profile Page")
         layout.addWidget(label)
-        # Add more widgets and setup specific to the Profile Page
 
 class SettingsPage(QWidget):
     def __init__(self):
@@ -41,7 +37,6 @@ class SettingsPage(QWidget):
         layout = QVBoxLayout(self)
         label = QLabel("Settings Page")
         layout.addWidget(label)
-        # Add more widgets and setup specific to the Settings Page
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -87,8 +82,6 @@ class MainWindow(QWidget):
 
     def create_sidebar(self):
         sidebarFrame = QFrame()
-        sidebarFrame.setMaximumWidth(200)
-        sidebarFrame.setMinimumWidth(70)
         sidebarFrame.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
@@ -102,6 +95,7 @@ class MainWindow(QWidget):
             }
             QPushButton:hover {
                 background-color: #1a1a1a;
+                border-radius: 3px;
             }
         """)
 
@@ -173,14 +167,12 @@ class MainWindow(QWidget):
         return versionFrame
 
     def toggle_sidebar(self):
-        if self.sidebarFrame.minimumWidth() == 70:
+        if self.sidebarFrame.width() == 70:
             self.sidebarAnimation.setStartValue(70)
             self.sidebarAnimation.setEndValue(200)
-            self.sidebarFrame.setMaximumWidth(200)  # Ensure max width is increased
         else:
             self.sidebarAnimation.setStartValue(200)
             self.sidebarAnimation.setEndValue(70)
-            self.sidebarFrame.setMaximumWidth(70)  # Ensure max width is reduced
         self.sidebarAnimation.start()
 
 def main():
